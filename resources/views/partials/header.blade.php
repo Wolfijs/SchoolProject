@@ -4,9 +4,12 @@
         <nav class="nav" id="nav">
             <ul class="nav-list">
                 <li><a href="{{ route('home') }}"><i class="fas fa-home"></i> Mājaslapa</a></li>
-                <li><a href="{{ route('fyt') }}"><i class="fas fa-users"></i> Atrodi savus komandas biedrus</a></li>
+                <li><a href="{{ route('fyt') }}"><i class="fas fa-users"></i> Atrodi biedrus</a></li>
+
                 @auth
                     <li><a href="{{ route('chat') }}"><i class="fas fa-comments"></i> Globāla tērzēšana</a></li>
+                    <li><a href="{{ route('fyt') }}"><i class="fas fa-trophy"></i> Turnīri</a></li>
+                    
                 @endauth
             </ul>
         </nav>

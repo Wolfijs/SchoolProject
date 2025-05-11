@@ -1,4 +1,3 @@
-
 body, html {
     margin: 0;
     padding: 0;
@@ -1360,16 +1359,13 @@ a {
 }
 
 .lobby-game-img {
-    width: 100%; /* Make image take up full width of container */
-    max-width: 250px; /* Limit the maximum width of the image */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 10px; /* Add rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-    transition: transform 0.3s ease; /* Add a smooth zoom effect */
-}
-
-.lobby-game-img:hover {
-    transform: scale(1.05); /* Slight zoom effect on hover */
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+    background: #222;
 }
 
 .fyta{
@@ -1775,358 +1771,263 @@ a {
 
 
 
-/* Lobby Page Styles */
-    .lobby-page-container {
-        display: flex;
-        width: 100%;
-        min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
-        flex-direction: column;
-    }
-    
-    /* Lobby Info Section (30%) */
-    .lobby-info-section {
-        background-color: #1a1a1a;
-        border-right: 1px solid #e2e8f0;
-        padding: 1.5rem;
-        overflow-y: auto;
-    }
-    
-    .lobby-header {
-        margin-bottom: 1.5rem;
-        border-bottom: 1px solid #e2e8f0;
-        padding-bottom: 1rem;
-    }
-    
-    .lobby-header h1 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    
-    .host-info {
-        display: flex;
-        align-items: center;
-        margin-top: 0.5rem;
-    }
-    
-    .host-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 0.75rem;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #4f46e5;
-        color: white;
-    }
-    
-    .avatar-placeholder {
-        font-weight: bold;
-    }
-    
-    .avatar-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .lobby-details {
-        margin-bottom: 1.5rem;
-    }
-    
-    .detail-item {
-        margin-bottom: 0.75rem;
-        display: flex;
-    }
-    
-    .detail-label {
-        font-weight: 600;
-        width: 100px;
-    }
-    
-    .lobby-description {
-        margin-bottom: 1.5rem;
-    }
-    
-    .lobby-description h3 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-    
-    .lobby-image {
-        margin-bottom: 1.5rem;
-    }
-    
-    .lobby-image img {
-        width: 100%;
-        border-radius: 0.5rem;
-    }
-    
-    .lobby-players {
-        margin-bottom: 1.5rem;
-    }
-    
-    .lobby-players h3 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.75rem;
-    }
-    
-    .players-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-    }
-    
-    .player-item {
-        display: flex;
-        align-items: center;
-        background-color: #1a1a1a;
-        padding: 0.5rem;
-        border-radius: 0.25rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    }
-    
-    .player-avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        margin-right: 0.5rem;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #4f46e5;
-        color: white;
-        font-size: 0.8rem;
-    }
-    
-    .lobby-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    
-    .join-btn, .leave-btn, .edit-btn {
-        padding: 0.625rem 1rem;
-        border-radius: 0.375rem;
-        font-weight: 500;
-        cursor: pointer;
-        text-align: center;
-        transition: all 0.2s;
-    }
-    
-    .join-btn {
-        background-color: #4f46e5;
-        color: white;
-        border: none;
-    }
-    
-    .join-btn:hover {
-        background-color: #4338ca;
-    }
-    
-    .leave-btn {
-        background-color: #ef4444;
-        color: white;
-        border: none;
-    }
-    
-    .leave-btn:hover {
-        background-color: #dc2626;
-    }
-    
-    .edit-btn {
-        background-color: #10b981;
-        color: white;
-        text-decoration: none;
-        display: inline-block;
-    }
-    
-    .edit-btn:hover {
-        background-color: #059669;
-    }
-    
-    /* Chat Sect
-    .chat-container {
-        width: 70%;
-        display: flex;
-        flex-direction: column;
-    }
-     /* Chat Sect
-    .chat-section {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        background-color: white;
-    }
-    
-    .chat-header {
-        padding: 1rem 1.5rem;
-        border-bottom: 1px solid #e2e8f0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .chat-header h2 {
-        font-size: 1.25rem;
-        font-weight: 600;
-    }
-    
-    .online-indicator {
-        display: flex;
-        align-items: center;
-    }
-    
-    .dot {
-        width: 8px;
-        height: 8px;
-        background-color: #10b981;
-        border-radius: 50%;
-        margin-right: 0.5rem;
-    }
-    
-    .chat-window {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-    
-    .messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1rem;
-    }
-    
-    .message {
-        display: flex;
-        margin-bottom: 1rem;
-    }
-    
-    .incoming {
-        justify-content: flex-start;
-    }
-    
-    .outgoing {
-        justify-content: flex-end;
-        flex-direction: row-reverse;
-    }
-    
-    .message-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin: 0 0.75rem;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #4f46e5;
-        color: white;
-    }
-    
-    .message-bubble {
-        max-width: 70%;
-        padding: 0.75rem 1rem;
-        border-radius: 1rem;
-    }
-    
-    .incoming .message-bubble {
-        background-color: #f3f4f6;
-    }
-    
-    .outgoing .message-bubble {
-        background-color: #4f46e5;
-        color: white;
-    }
-    
-    .message-info {
-        margin-bottom: 0.25rem;
-    }
-    
-    .message-sender {
-        font-weight: 600;
-        font-size: 0.875rem;
-    }
-    
-    .chat-input-container {
-        padding: 1rem;
-        border-top: 1px solid #e2e8f0;
-    }
-    
-    #chatForm {
-        display: flex;
-        align-items: flex-end;
-    }
-    
-    textarea {
-        flex: 1;
-        border: 1px solid #e2e8f0;
-        border-radius: 1.5rem;
-        padding: 0.75rem 1rem;
-        resize: none;
-        max-height: 120px;
-        margin-right: 0.75rem;
-    }
-    
-    .send-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #4f46e5;
-        color: white;
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-    
-    .send-btn:hover {
-        background-color: #4338ca;
-    }
-    
-    .login-prompt {
-        padding: 1rem;
-        text-align: center;
-        border-top: 1px solid #e2e8f0;
-    }
-    
-    .login-prompt a {
-        color: #4f46e5;
-        font-weight: 500;
-    }
-    
-    /* Responsive adjustments */
-    /* @media (max-width: 768px) {
-        .lobby-page-container {
-            flex-direction: column;
-        }
-        
-        .lobby-info-section {
-            width: 100%;
-            border-right: none;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .chat-container {
-            width: 100%;
-        }
-    }  */
+/* Lobby Page Layout */
+.lobby-page-container {
+    display: flex;
+    width: 100%;
+    min-height: calc(100vh - 120px);
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+    background-color: #121212;
+}
 
+/* Lobby Info Section */
+.lobby-info-section {
+    flex: 0 0 40%;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    padding: 1.5rem;
+    overflow-y: auto;
+
+}
+
+.lobby-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.lobby-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #f39c12;
+}
+
+.host-info {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.host-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    color: white;
+}
+
+.host-name {
+    color: #fff;
+}
+
+.lobby-details {
+    margin-bottom: 1.5rem;
+}
+
+.details-grid {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background-color: #222;
+    border-radius: 8px;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #f39c12;
+}
+
+.lobby-description {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #222;
+    border-radius: 8px;
+}
+
+.lobby-description h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #f39c12;
+}
+
+.lobby-description p {
+    color: #fff;
+    line-height: 1.5;
+}
+
+.lobby-image {
+    margin-bottom: 1.5rem;
+}
+
+.lobby-image img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.lobby-players {
+    margin-bottom: 1.5rem;
+}
+
+.lobby-players h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #f39c12;
+}
+
+.players-grid {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.player-item {
+    display: flex;
+    align-items: center;
+    background-color: #222;
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.player-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    color: white;
+}
+
+.player-name {
+    color: #fff;
+}
+
+.lobby-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.join-btn, .leave-btn {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    border: none;
+    color: white;
+}
+
+.join-btn {
+    background-color: #f39c12;
+}
+
+.join-btn:hover {
+    background-color: #e67e22;
+}
+
+.leave-btn {
+    background-color: #dc3545;
+}
+
+.leave-btn:hover {
+    background-color: #c82333;
+}
+
+.delete-lobby {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    border: none;
+}
+
+.delete-lobby:hover {
+    background-color: #c82333;
+}
+
+/* Lobby Chat Container */
+.lobby-chat-container {
+    flex: 0 0 60%;
+    height: calc(100vh - 160px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .lobby-page-container {
+        flex-direction: column;
+        padding: 10px;
+        max-width: 100vw;
+    }
+    .lobby-info-section {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 100vw;
+        height: auto;
+        max-height: none;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+    .lobby-chat-container {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 100vw;
+        height: auto;
+        min-height: 300px;
+        box-sizing: border-box;
+    }
+    .lobby-image img {
+        max-width: 100%;
+        max-height: 180px;
+    }
+    .chat-sections {
+        max-width: 100vw;
+        width: 100%;
+        height: 60vh;
+        min-height: 300px;
+        border-radius: 8px;
+    }
+}
 
 .xd{
     margin-top: 20px;
 }
 
 
-
+.chat-sections {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(255, 255, 255 , 0.5);
+    overflow: hidden;
+    height: 105vh; /* Fixed height - 80% of viewport height */
+}
 
 
 

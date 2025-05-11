@@ -1,16 +1,4 @@
-import Echo from "laravel-echo";
-import Pusher from "pusher-js";
-
-window.Pusher = Pusher;
-
-window.Echo = new Echo({
-    broadcaster: "pusher",
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true,
-    authEndpoint: "/broadcasting/auth",
-});
-
+// Remove the imports since we're loading Echo globally
 document.addEventListener('DOMContentLoaded', () => {
     const chatForm = document.getElementById('chatForm');
     const messageInput = document.getElementById('message');
@@ -18,22 +6,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const lobbyId = document.querySelector('meta[name="lobby-id"]')?.content;
     const userId = document.querySelector('meta[name="user-id"]')?.content;
 
+    if (!lobbyId) {
+        console.error('No lobby ID found');
+        return;
+    }
+
     // Scroll to bottom on load
     if (messagesContainer) {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    // Subscribe to private lobby channel
-    if (lobbyId) {
-        Echo.private(`lobby.${lobbyId}`)
-            .listen('LobbyMessageSent', (event) => {
-                const msg = event.message;
-                const isOwn = msg.user.id == userId;
-                const html = renderMessageHTML(msg, isOwn);
+    // Initialize Echo with auth configuration
+    window.Echo.private(`lobby.${lobbyId}`)
+        .listen('LobbyMessageSent', (event) => {
+            console.log('Received message:', event);
+            const msg = event.message;
+            // Only show message if it's not from the current user
+            if (msg.user.id != userId) {
+                const html = renderMessageHTML(msg, false);
                 messagesContainer.insertAdjacentHTML('beforeend', html);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            });
-    }
+            }
+        })
+        .error((error) => {
+            console.error('Echo error:', error);
+        });
 
     // Handle chat message sending
     if (chatForm) {
@@ -42,18 +39,32 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = messageInput.value.trim();
             if (!text) return;
 
-            const response = await fetch(chatForm.action, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({ message: text }),
-            });
+            try {
+                const response = await fetch(chatForm.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify({ message: text }),
+                });
 
-            if (response.ok) {
-                messageInput.value = '';
-                messageInput.style.height = 'auto';
+                if (response.ok) {
+                    const data = await response.json();
+                    messageInput.value = '';
+                    messageInput.style.height = 'auto';
+                    
+                    // Add the message to the UI immediately for the sender
+                    if (data.message) {
+                        const html = renderMessageHTML(data.message, true);
+                        messagesContainer.insertAdjacentHTML('beforeend', html);
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                } else {
+                    console.error('Failed to send message:', await response.text());
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
             }
         });
     }
@@ -70,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Message renderer
     function renderMessageHTML(message, isOwn) {
         const avatar = message.user.photo
-            ? `<img src="/storage/${message.user.photo}" alt="${message.user.name}" class="avatar-img">`
+            ? `<img src="${message.user.photo}" alt="${message.user.name}" class="avatar-img">`
             : `<div class="avatar-placeholder">${message.user.name.charAt(0).toUpperCase()}</div>`;
 
         return `

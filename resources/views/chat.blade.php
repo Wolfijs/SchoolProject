@@ -70,6 +70,25 @@
 @endsection
 
 @section('scripts')
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.3/dist/echo.iife.js"></script>
+<script>
+    // Pusher configuration
+    window.pusherConfig = {
+        key: '{{ config('broadcasting.connections.pusher.key') }}',
+        cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
+        forceTLS: false
+    };
+
+    // Initialize Echo
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: window.pusherConfig.key,
+        cluster: window.pusherConfig.cluster,
+        forceTLS: false,
+        enabledTransports: ['ws', 'wss']
+    });
+</script>
 <script src="{{ asset('js/chat.js') }}" defer></script>
 <script>
     // Auto-resize textarea as user types

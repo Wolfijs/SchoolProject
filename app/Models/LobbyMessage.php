@@ -11,7 +11,11 @@ class LobbyMessage extends Model
 
     protected $table = 'lobby_messages'; // Just in case
 
-    protected $fillable = ['lobby_id', 'user_id', 'message'];
+    protected $fillable = [
+        'user_id',
+        'lobby_id',
+        'message'
+    ];
 
     public function user()
     {

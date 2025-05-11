@@ -7,6 +7,7 @@ use App\Http\Controllers\LobbyController;
 use App\Http\Controllers\LobbyJoinController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController; // Ensure this is imported
+use App\Http\Controllers\LobbyChatController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,29 +34,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-
-
-
-
-        /* Lobbies CRUD / membership --------------------------------------- */
-        Route::post  ('/lobby/store',          [LobbyController::class, 'store'  ])->name('lobby.store');
-        Route::get   ('/lobby/{lobby}',        [LobbyController::class, 'show'   ])->name('lobby.show');   // unique lobby page
-        Route::post  ('/lobby/{lobby}/join',   [LobbyController::class, 'join'   ])->name('lobby.join');
-        Route::post  ('/lobby/{lobby}/leave',  [LobbyController::class, 'leave'  ])->name('lobby.leave');
-        Route::delete('/lobby/{lobby}',        [LobbyController::class, 'destroy'])->name('lobby.destroy');
-        
-
-
-        Route::post('/lobby/{lobby}/chat', [ChatController::class, 'sendMessage'])->name('lobby.chat.send')->middleware('auth');
-        Route::get('/lobby/{lobby}/chat', [LobbyController::class, 'showLobbyChat'])->name('lobby.chat');
-        Route::post('/lobby/{lobby}/chat', [LobbyChatController::class, 'send'])->name('lobby.chat.send');
-
-        Route::get('/chat', [MessageController::class, 'index'])->name('chat'); // Load chat view
-        Route::post('/chat/send', [MessageController::class, 'sendMessage'])->name('chat.send');
-        Route::get('/chat/messages', [MessageController::class, 'loadMessages'])->name('chat.messages'); // Load messages
-            
-
+    /* Lobbies CRUD / membership --------------------------------------- */
+    Route::post  ('/lobby/store',          [LobbyController::class, 'store'  ])->name('lobby.store');
+    Route::get   ('/lobby/{lobby}',        [LobbyController::class, 'show'   ])->name('lobby.show');   // unique lobby page
+    Route::post  ('/lobby/{lobby}/join',   [LobbyController::class, 'join'   ])->name('lobby.join');
+    Route::post  ('/lobby/{lobby}/leave',  [LobbyController::class, 'leave'  ])->name('lobby.leave');
+    Route::delete('/lobby/{lobby}',        [LobbyController::class, 'destroy'])->name('lobby.destroy');
     
+    /* Lobby Chat Routes */
+    Route::post('/lobby/{lobby}/chat', [LobbyChatController::class, 'send'])->name('lobby.chat.send')->middleware('auth');
+
+    Route::get('/chat', [MessageController::class, 'index'])->name('chat'); // Load chat view
+    Route::post('/chat/send', [MessageController::class, 'sendMessage'])->name('chat.send');
+    Route::get('/chat/messages', [MessageController::class, 'loadMessages'])->name('chat.messages'); // Load messages
 });
 
 Route::get('/events', function () {

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\ServiceProvider;
+
 return [
 
     /*
@@ -9,7 +11,7 @@ return [
     |
     | This value is the name of your application. It is used throughout the
     | framework, such as in notifications and other places where the
-    | application’s name is displayed.
+    | application's name is displayed.
     |
     */
 
@@ -108,7 +110,7 @@ return [
     | Encryption Key
     |--------------------------------------------------------------------------
     |
-    | This key is used by Laravel’s encryption service. It should be set to a
+    | This key is used by Laravel's encryption service. It should be set to a
     | random, 32-character string before deploying your application.
     |
     */
@@ -149,8 +151,7 @@ return [
     |
     */
 
-    'providers' => [
-
+    'providers' => ServiceProvider::defaultProviders()->merge([
         /*
          * Laravel Framework Service Providers...
          */
@@ -187,10 +188,10 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class, // Uncomment if broadcasting is enabled
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-    ],
+    ])->toArray(),
 
     /*
     |--------------------------------------------------------------------------

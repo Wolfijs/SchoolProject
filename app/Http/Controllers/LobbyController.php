@@ -8,12 +8,13 @@ use App\Events\LobbyMessageSent;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class LobbyController extends Controller
 {
     public function index()
     {
-        $lobbies = Lobby::with('players')->get();
+        $lobbies = Lobby::with('user')->latest()->get();
         return view('fyt', compact('lobbies'));
     }
 
@@ -78,14 +79,20 @@ class LobbyController extends Controller
 
     public function show(Lobby $lobby)
     {
-        $lobby->load(['players', 'user']);
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
 
-        // Load messages from the new lobby_messages table
-        $messages = LobbyMessage::where('lobby_id', $lobby->id)
-                                ->with('user')
-                                ->orderBy('created_at', 'desc')
-                                ->take(50)
-                                ->get();
+        // Check if user is a member of the lobby
+        if (!$lobby->players->contains(Auth::id())) {
+            return redirect()->route('fyt')->with('error', 'Jums nav tiesības pievienoties šim vestibilam.');
+        }
+
+        $messages = LobbyMessage::with('user')
+            ->where('lobby_id', $lobby->id)
+            ->latest()
+            ->get();
 
         return view('lobby.show', compact('lobby', 'messages'));
     }

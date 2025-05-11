@@ -3,76 +3,74 @@ document.addEventListener('DOMContentLoaded', function() {
     const createLobbyPopup = document.getElementById('createLobbyPopup');
     const closePopup = document.querySelector('.close-popup');
     
+    if (createLobbyBtn && createLobbyPopup) {
+        createLobbyBtn.addEventListener('click', function() {
+            createLobbyPopup.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+    }
 
-    createLobbyBtn.addEventListener('click', function() {
-        createLobbyPopup.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    });
-
-    closePopup.addEventListener('click', function() {
-        createLobbyPopup.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target === createLobbyPopup) {
+    if (closePopup) {
+        closePopup.addEventListener('click', function() {
             createLobbyPopup.style.display = 'none';
             document.body.style.overflow = 'auto';
-        }
-    });
+        });
+    }
 
-
-
- 
-
-
-
-
-
+    if (createLobbyPopup) {
+        window.addEventListener('click', function(event) {
+            if (event.target === createLobbyPopup) {
+                createLobbyPopup.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
 
     const createLobbyForm = document.querySelector('.create-lobby-form');
-    createLobbyForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        clearErrors();
+    if (createLobbyForm) {
+        createLobbyForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            clearErrors();
 
-        const formData = new FormData(createLobbyForm);
+            const formData = new FormData(createLobbyForm);
 
-        if (!validateInputs(
-            formData.get('game_name').trim(),
-            formData.get('skill_level').trim(),
-            formData.get('playstyle').trim(),
-            formData.get('region').trim(),
-            formData.get('max_players').trim()
-        )) {
-            return;
-        }
-
-        fetch(createLobbyForm.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            if (!validateInputs(
+                formData.get('game_name').trim(),
+                formData.get('skill_level').trim(),
+                formData.get('playstyle').trim(),
+                formData.get('region').trim(),
+                formData.get('max_players').trim()
+            )) {
+                return;
             }
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.text().then(text => {
-                    console.error(`Error: ${response.status} - ${text}`);
-                    throw new Error(`Error: ${response.status}`);
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            createLobbyPopup.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            createLobbyForm.reset();
-            window.location.href = '/fyt';
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+
+            fetch(createLobbyForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        console.error(`Error: ${response.status} - ${text}`);
+                        throw new Error(`Error: ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                createLobbyPopup.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                createLobbyForm.reset();
+                window.location.href = '/fyt';
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
         });
-    });
+    }
 
     const joinLobbyForms = document.querySelectorAll('.join-lobby-form');
     joinLobbyForms.forEach(form => {
@@ -133,13 +131,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                // Optionally remove the lobby item from the DOM
-                const lobbyElement = form.closest('.lobby-item');
-                if (lobbyElement) {
-                    lobbyElement.remove();
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                } else {
+                    window.location.reload();
                 }
-                // Refresh the page after successful deletion
-                window.location.reload(); // This will reload the page
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);

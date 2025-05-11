@@ -18,23 +18,9 @@
         @yield('content')
     </main>
 
-    <!-- Include Pusher and Laravel Echo before your own script -->
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js"></script>
-
-    <script>
-        window.pusherConfig = {
-            key: '{{ config('broadcasting.connections.pusher.key') }}',
-            cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
-            encrypted: false // Set to true if using SSL, otherwise false
-        };
-    </script>
-
     <script type="module" src="{{ asset('js/script.js') }}"></script>
-    <script type="module" src="{{ asset('js/chat.js') }}" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-
+    @yield('scripts')
 </body>
 </html>

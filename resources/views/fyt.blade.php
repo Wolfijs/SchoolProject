@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Find Your Teammates')
+@section('title', 'Atrodi perfekto komandasbiedru')
 
 @section('content')
 @include('partials.header')

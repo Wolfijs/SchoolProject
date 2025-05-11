@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
     Pusher.logToConsole = true;
+    
+    // Initialize Echo if not already initialized
+    if (typeof window.Echo === 'undefined') {
+        window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: process.env.MIX_PUSHER_APP_KEY,
+            cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+            forceTLS: true
+        });
+    }
+    
     const chatForm = document.getElementById('chatForm');
     const messageInput = document.getElementById('message');
     const messagesContainer = document.getElementById('messages');
@@ -113,14 +124,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initial scroll to bottom when page loads
     scrollToBottom();
 
-    if (typeof Pusher !== 'undefined') {
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: window.pusherConfig.key,
-            cluster: window.pusherConfig.cluster,
-            forceTLS: window.pusherConfig.forceTLS
-        });
-        
+    // Check if Echo is available globally
+    if (typeof window.Echo !== 'undefined') {
         // Listen for new messages
         window.Echo.channel('chat')
             .listen('MessageSent', (e) => {
@@ -129,15 +134,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Only add the message to UI if it wasn't sent by current user
                     if (e.message.user_id != currentUserId) {
                         const userName = e.message.username;
-                        // Get user photo from the message data - handle both direct photo url or storage path
                         let userPhoto = e.message.user_photo || null;
                         
-                        // If the photo path doesn't start with http, assume it's a storage path and convert it
+                        // Handle photo path
                         if (userPhoto && !userPhoto.startsWith('http')) {
-                            // Check if it already has /storage/ prefix
-                            if (!userPhoto.startsWith('/storage/')) {
-                                userPhoto = `/storage/${userPhoto}`;
-                            }
+                            userPhoto = userPhoto.startsWith('/storage/') ? userPhoto : `/storage/${userPhoto}`;
                         }
                         
                         const messageContent = e.message.content || 'No content';
@@ -148,11 +149,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         messagesContainer.appendChild(newMessage);
                         scrollToBottom();
                     }
-                } else {
-                    console.error('Received message does not have the expected structure:', e);
                 }
             });
     } else {
-        console.error('Pusher is not defined');
+        console.error('Echo is not defined');
     }
 });

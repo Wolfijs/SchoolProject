@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Game Lobby - ' . $lobby->game_name)
-
+@section('title', 'Spēles vestibils - ' . $lobby->game_name)
+@include('partials.header')
 @section('head')
     @auth
         <meta name="lobby-id" content="{{ $lobby->id }}">
         <meta name="user-id" content="{{ auth()->id() }}">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     @endauth
 @endsection
 
@@ -13,6 +14,9 @@
 @php
     $member = $lobby->players->contains(auth()->id());
 @endphp
+<meta name="lobby-id" content="{{ $lobby->id }}">
+<meta name="user-id" content="{{ auth()->id() }}">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <div class="lobby-page-container">
     {{-- ───────────── Lobby‑info column ───────────── --}}
@@ -28,22 +32,24 @@
                         <div class="avatar-placeholder">{{ strtoupper(substr($lobby->user->name, 0, 1)) }}</div>
                     @endif
                 </div>
-                <span class="host-name">Host: {{ $lobby->user->name }}</span>
+                <span class="host-name">Vadītājs: {{ $lobby->user->name }}</span>
             </div>
         </div>
 
         {{-- Details --}}
         <div class="lobby-details">
-            <div class="detail-item"><span class="detail-label">Skill Level:</span> <span>{{ $lobby->skill_level }}</span></div>
-            <div class="detail-item"><span class="detail-label">Playstyle:</span>   <span>{{ $lobby->playstyle }}</span></div>
-            <div class="detail-item"><span class="detail-label">Region:</span>      <span>{{ $lobby->region }}</span></div>
-            <div class="detail-item"><span class="detail-label">Players:</span>     <span>{{ $lobby->players->count() }} / {{ $lobby->max_players }}</span></div>
+            <div class="details-grid">
+                <div class="detail-item"><span class="detail-label">Prasmju līmenis:</span> <span>{{ $lobby->skill_level }}</span></div>
+                <div class="detail-item"><span class="detail-label">Spēles stils:</span> <span>{{ $lobby->playstyle }}</span></div>
+                <div class="detail-item"><span class="detail-label">Reģions:</span> <span>{{ $lobby->region }}</span></div>
+                <div class="detail-item"><span class="detail-label">Spēlētāji:</span> <span>{{ $lobby->players->count() }} / {{ $lobby->max_players }}</span></div>
+            </div>
         </div>
 
         {{-- Description --}}
         @if($lobby->description)
             <div class="lobby-description">
-                <h3>Description</h3>
+                <h3>Apraksts</h3>
                 <p>{{ $lobby->description }}</p>
             </div>
         @endif
@@ -51,14 +57,14 @@
         {{-- Game image --}}
         @if($lobby->photo)
             <div class="lobby-image">
-                <img src="{{ asset('storage/' . $lobby->photo) }}" alt="{{ $lobby->game_name }}">
+                <img src="{{ asset('storage/' . $lobby->photo) }}" alt="{{ $lobby->game_name }}" style="max-width: 350px; max-height: 250px; object-fit: contain; display: block; margin: 0 auto;">
             </div>
         @endif
 
         {{-- Players list --}}
         <div class="lobby-players">
-            <h3>Players in Lobby</h3>
-            <div class="players-list">
+            <h3>Spēlētāji vestibilā</h3>
+            <div class="players-grid">
                 @foreach($lobby->players as $player)
                     <div class="player-item">
                         <div class="player-avatar">
@@ -77,21 +83,21 @@
         {{-- Join / Leave / Delete --}}
         <div class="lobby-actions">
             @guest
-                <a href="{{ route('login') }}" class="join-btn">Login to join</a>
+                <a href="{{ route('login') }}" class="join-btn">Piesakies, lai pievienotos</a>
             @else
                 @if(!$member && $lobby->players->count() < $lobby->max_players)
                     <form action="{{ route('lobby.join', $lobby) }}" method="POST">@csrf
-                        <button class="join-btn">Join Lobby</button>
+                        <button class="join-btn">Pievienoties vestibilam</button>
                     </form>
                 @elseif($member && auth()->id() !== $lobby->user_id)
                     <form action="{{ route('lobby.leave', $lobby) }}" method="POST">@csrf
-                        <button class="leave-btn">Leave Lobby</button>
+                        <button class="leave-btn">Iziet no vestibila</button>
                     </form>
                 @endif
 
                 @if(auth()->id() == $lobby->user_id)
                     <form action="{{ route('lobby.destroy', $lobby) }}" method="POST" class="delete-lobby-form">@csrf @method('DELETE')
-                        <button class="delete-lobby">Delete Lobby</button>
+                        <button class="delete-lobby">Dzēst vestibilu</button>
                     </form>
                 @endif
             @endguest
@@ -99,13 +105,13 @@
     </div>
 
     {{-- Chat Section --}}
-    <div class="chat-container">
+    <div class="lobby-chat-container">
         @include('partials.sidebar')
 
-        <section id="chat-section" class="chat-section">
+        <section id="chat-section" class="chat-sections">
             <div class="chat-header">
-                <h2>{{ $lobby->game_name }} Chat</h2>
-                <div class="online-indicator"><span class="dot"></span><span class="status">Active</span></div>
+                <h2>{{ $lobby->game_name }} Tērzēšana</h2>
+                <div class="online-indicator"><span class="dot"></span><span class="status">Aktīvs</span></div>
             </div>
 
             <div id="chat-window" class="chat-window">
@@ -130,7 +136,7 @@
                 @auth
                     <div class="chat-input-container">
                         <form id="chatForm" action="{{ route('lobby.chat.send', $lobby) }}" method="POST">@csrf
-                            <textarea id="message" name="message" rows="1" placeholder="Type your message…" required></textarea>
+                            <textarea id="message" name="message" rows="1" placeholder="Ierakstiet savu ziņojumu..." required></textarea>
                             <button type="submit" class="send-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855a.5.5 0 0 0-.057.853l4.423 2.985v4.807a.5.5 0 0 0 .836.37l2.704-2.704L12.54 14.9a.5.5 0 0 0 .756-.281l2.666-13.333z"/>
@@ -140,7 +146,7 @@
                     </div>
                 @else
                     <div class="login-prompt">
-                        <p>Please <a href="{{ route('login') }}">login</a> to chat.</p>
+                        <p>Lūdzu <a href="{{ route('login') }}">piesakieties</a>, lai tērzētu.</p>
                     </div>
                 @endauth
             </div>
@@ -152,5 +158,30 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/lobby-chat.js') }}" defer></script>
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.3/dist/echo.iife.js"></script>
+<script>
+    // Pusher configuration
+    window.pusherConfig = {
+        key: '{{ config('broadcasting.connections.pusher.key') }}',
+        cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
+        forceTLS: false
+    };
+
+    // Initialize Echo with auth configuration
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: window.pusherConfig.key,
+        cluster: window.pusherConfig.cluster,
+        forceTLS: false,
+        enabledTransports: ['ws', 'wss'],
+        authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+        auth: {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            }
+        }
+    });
+</script>
+<script src="{{ asset('js/lobby-chat.js') }}"></script>
 @endsection
