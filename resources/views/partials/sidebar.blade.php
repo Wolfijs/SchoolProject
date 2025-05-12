@@ -16,7 +16,7 @@
                 </a>
                 <a href="{{ route('logout') }}" class="logout-btn" 
                    onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();">
-                    <i class="fas fa-sign-out-alt"></i> Redigēšana
+                    <i class="fas fa-sign-out-alt"></i> Izrakstīties
                 </a>
                 <form id="logout-form-sidebar" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf

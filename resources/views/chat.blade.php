@@ -89,7 +89,6 @@
         enabledTransports: ['ws', 'wss']
     });
 </script>
-<script src="{{ asset('js/chat.js') }}" defer></script>
 <script>
     // Auto-resize textarea as user types
     document.addEventListener('DOMContentLoaded', function() {
