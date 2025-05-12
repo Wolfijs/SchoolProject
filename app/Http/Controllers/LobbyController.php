@@ -112,7 +112,10 @@ class LobbyController extends Controller
         $lobby = Lobby::findOrFail($id);
 
         if (auth()->id() !== $lobby->user_id) {
-            return response()->json(['error' => 'Jums nav tiesību dzēst šo vestibilu.'], 403);
+            if ($lobby->user_id) {
+                return response()->json(['error' => 'Jums nav tiesību dzēst šo vestibilu.'], 403);
+            }
+            abort(404);
         }
 
         $lobby->players()->detach();
@@ -123,10 +126,14 @@ class LobbyController extends Controller
 
         $lobby->delete();
 
-        return response()->json([
-            'message' => 'Vestibils veiksmīgi izdzēsts.',
-            'redirect_url' => route('fyt')
-        ]);
+        if (request()->ajax()) {
+            return response()->json([
+                'message' => 'Vestibils veiksmīgi izdzēsts.',
+                'redirect_url' => route('fyt')
+            ]);
+        }
+
+        return redirect()->route('fyt')->with('success', 'Vestibils veiksmīgi izdzēsts.');
     }
 
 

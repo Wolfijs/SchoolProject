@@ -182,6 +182,34 @@
             }
         }
     });
+
+    // Handle lobby deletion
+    document.querySelector('.delete-lobby-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (confirm('Vai tiešām vēlaties dzēst šo vestibilu?')) {
+            fetch(this.action, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                window.location.href = data.redirect_url;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = '{{ route('fyt') }}';
+            });
+        }
+    });
 </script>
 <script src="{{ asset('js/lobby-chat.js') }}"></script>
 @endsection
