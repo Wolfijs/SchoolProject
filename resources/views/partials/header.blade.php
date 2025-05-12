@@ -15,8 +15,8 @@
         </nav>
         <div class="auth-buttons">
             @guest
-                <a href="{{ route('login') }}" class="btn login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
-                <a href="{{ route('signup') }}" class="btn signup-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+                <a href="{{ route('login') }}" class="btn login-btn"><i class="fas fa-sign-in-alt"></i> Ieiet</a>
+                <a href="{{ route('signup') }}" class="btn signup-btn"><i class="fas fa-user-plus"></i> Reģistrējies</a>
             @else
                 <a href="{{ route('profile.edit') }}" class="btn edit-btn">
                     <i class="fas fa-user-edit"></i> Redigēšana

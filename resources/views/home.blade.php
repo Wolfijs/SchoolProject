@@ -15,7 +15,7 @@
         <div class="home-content">
             <h1 class="home-title">Atrodi Savus Ideālos Komandas Biedrus</h1>
             <p class="home-subtitle">Personalizēta spēlētāju saderība jūsu iecienītākajām spēlēm.</p>
-            <a href="#" class="btn btn-primary">Sākt</a>
+            <a href="{{ route('login') }}" class="btn btn-primary">Sākt</a>
         </div>
     </div>
 </section>
@@ -50,16 +50,16 @@
 <section id="events" class="events-section">
     <div class="container">
         <div class="section-header">
-            <h2 class="section-title">Pievienojieties Aizraujošiem Pasākumiem un Turnīriem</h2>
+            <h2 class="section-title">Pievienojieties Aizraujošiem Vestibils un Turnīriem</h2>
         </div>
         <div class="events-wrapper">
             <div class="events-content">
                 <div>
                     <div class="event-top">
-                        <p>Piedalieties sacensību spēļu pasākumos un draudzīgās spēlēs vai rīkojiet savus turnīrus, lai izveidotu reputāciju kopienā.</p>
+                        <p>Piedalieties aizraujošiem spēļu pasākumos un draudzīgās spēlēs vai rīkojiet savus turnīrus, lai izveidotu reputāciju kopienā.</p>
                     </div>
                     <div class="event-bottom">
-                        <a href="#" class="btn btn-secondary">Skatīt Gaidāmās Spēles</a>
+                        <a href="{{ route('login') }}" class="btn btn-secondary">Skatīt Gaidāmās Spēles</a>
                     </div>
                 </div>
                 <div class="events-image">

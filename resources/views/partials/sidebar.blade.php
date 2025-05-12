@@ -4,7 +4,7 @@
         <a href="{{ route('home') }}"><i class="fas fa-home"></i> Mājaslapa</a>
         <a href="{{ route('fyt') }}"><i class="fas fa-users"></i> Atrodi Biedrus</a>
         <a href="{{ route('chat') }}"><i class="fas fa-comments"></i> Globāla tērzēšana</a>
-        <li><a href="{{ route('fyt') }}"><i class="fas fa-trophy"></i> Turnīri</a></li>
+        <a href="{{ route('fyt') }}"><i class="fas fa-trophy"></i> Turnīri</a>
 
         <div class="auth-links">
             @guest
@@ -16,7 +16,7 @@
                 </a>
                 <a href="{{ route('logout') }}" class="logout-btn" 
                    onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();">
-                    <i class="fas fa-sign-out-alt"></i> Izrakstīties
+                    <i class="fas fa-sign-out-alt"></i> Redigēšana
                 </a>
                 <form id="logout-form-sidebar" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
