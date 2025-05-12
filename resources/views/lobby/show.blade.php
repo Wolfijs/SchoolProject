@@ -175,7 +175,7 @@
         cluster: window.pusherConfig.cluster,
         forceTLS: false,
         enabledTransports: ['ws', 'wss'],
-        authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+        authEndpoint: '/broadcasting/auth',
         auth: {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content

@@ -201,4 +201,27 @@ document.addEventListener('DOMContentLoaded', function() {
         errorFields.forEach(field => field.classList.remove('error'));
     }
     
+    // Sidebar functionality
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', function() {
+            sidebar.style.right = '0';
+        });
+    }
+
+    if (closeSidebar && sidebar) {
+        closeSidebar.addEventListener('click', function() {
+            sidebar.style.right = '-100%';
+        });
+    }
+
+    // Close sidebar when clicking outside
+    document.addEventListener('click', function(event) {
+        if (sidebar && !sidebar.contains(event.target) && event.target !== menuToggle) {
+            sidebar.style.right = '-100%';
+        }
+    });
 });
