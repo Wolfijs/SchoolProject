@@ -102,7 +102,7 @@
                     </form>
                     @endif
                     @else
-                    <p class="text-muted">Login to join the lobby</p>
+                    <p class="text-muted">Pieslēdzies lai pievienoties vestibilam</p>
                     @endauth
 
             </div>
