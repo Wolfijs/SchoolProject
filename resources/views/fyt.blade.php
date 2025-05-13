@@ -118,7 +118,7 @@
     <div class="popup-content">
         <div class="max">
             <span class="close-popup">&times;</span>
-            <h2>Izveido jaunu vestibilu</h2>
+            <h2 style="color: #ffffff;">Izveido jaunu vestibilu</h2>
 
             <form id="createLobbyForm" action="{{ route('lobby.store') }}" method="POST" class="create-lobby-form">
                 @csrf

@@ -8,7 +8,7 @@
 
                 @auth
                     <li><a href="{{ route('chat') }}"><i class="fas fa-comments"></i> Globāla tērzēšana</a></li>
-                    <li><a href="{{ route('fyt') }}"><i class="fas fa-trophy"></i> Turnīri</a></li>
+                    <li><a href="{{ route('tournaments.index') }}"><i class="fas fa-trophy"></i> Turnīri</a></li>
                     
                 @endauth
             </ul>

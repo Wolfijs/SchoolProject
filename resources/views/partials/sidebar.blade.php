@@ -4,7 +4,7 @@
         <a href="{{ route('home') }}"><i class="fas fa-home"></i> Mājaslapa</a>
         <a href="{{ route('fyt') }}"><i class="fas fa-users"></i> Atrodi Biedrus</a>
         <a href="{{ route('chat') }}"><i class="fas fa-comments"></i> Globāla tērzēšana</a>
-        <a href="{{ route('fyt') }}"><i class="fas fa-trophy"></i> Turnīri</a>
+        <a href="{{ route('tournaments.index') }}"><i class="fas fa-trophy"></i> Turnīri</a>
 
         <div class="auth-links">
             @guest
@@ -13,7 +13,7 @@
             @else
                 <a href="{{ route('profile.edit') }}" class="edit-btn">
                     <i class="fas fa-user-edit"></i> Profila rediģēšana
-                </a>
+                </a><br><brremove the >
                 <a href="{{ route('logout') }}" class="logout-btn" 
                    onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();">
                     <i class="fas fa-sign-out-alt"></i> Izrakstīties

@@ -8,6 +8,7 @@ use App\Http\Controllers\LobbyJoinController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController; // Ensure this is imported
 use App\Http\Controllers\LobbyChatController;
+use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,6 +48,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat', [MessageController::class, 'index'])->name('chat'); // Load chat view
     Route::post('/chat/send', [MessageController::class, 'sendMessage'])->name('chat.send');
     Route::get('/chat/messages', [MessageController::class, 'loadMessages'])->name('chat.messages'); // Load messages
+
+    // Tournament routes
+    Route::get('/tournaments', [TournamentController::class, 'index'])->name('tournaments.index');
+    Route::get('/tournaments/create', [TournamentController::class, 'create'])->name('tournaments.create');
+    Route::post('/tournaments', [TournamentController::class, 'store'])->name('tournaments.store');
+    Route::get('/tournaments/{tournament}', [TournamentController::class, 'show'])->name('tournaments.show');
+    Route::post('/tournaments/{tournament}/join', [TournamentController::class, 'join'])->name('tournaments.join');
+    Route::post('/tournaments/{tournament}/leave', [TournamentController::class, 'leave'])->name('tournaments.leave');
+    Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->name('tournaments.destroy');
 });
 
 Route::get('/events', function () {

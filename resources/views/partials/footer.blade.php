@@ -7,6 +7,7 @@
                 <li><a href="{{ route('home') }}">Mājaslapa</a></li>
                     <li><a href="{{ route('fyt') }}"> Atrodi savus komandas biedrus</a></li>
                     <li><a href="{{ route('chat') }}">Globāla tērzēšana</a></li>
+                    <li><a href="{{ route('tournaments.index') }}"> Turnīri</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -23,6 +24,6 @@
                 <!-- <button class="btn btn-contact">Talk with Us</button> -->
             </div>
         </div>
-        <p class="footer-text">&copy; 2024 GameMate. All Rights Reserved.</p>
+        <p class="footer-text">&copy; {{ date('Y') }} GameMate. All Rights Reserved.</p>
     </div>
 </footer>
