@@ -1971,8 +1971,10 @@ a {
 /* Lobby Chat Container */
 .lobby-chat-container {
     flex: 0 0 60%;
+    
  
 }
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -2276,7 +2278,7 @@ a {
   
   .form-input.is-invalid {
     border-color: var(--color-danger);
-    background-color: #fff5f5;
+    background-color: #1a1a1a;
   }
   
   .error-message {

@@ -96,10 +96,7 @@
 
                     {{-- Host-only delete --}}
                     @if (auth()->id() === $lobby->user_id)
-                    <form class="delete-lobby-form" action="{{ route('lobby.destroy', $lobby->id) }}" method="POST">
-                        @csrf @method('DELETE')
-                        <button class="delete-lobby">Dzēst vestibilu</button>
-                    </form>
+             
                     @endif
                     @else
                     <p class="text-muted">Pieslēdzies lai pievienoties vestibilam</p>

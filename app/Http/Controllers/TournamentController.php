@@ -86,6 +86,6 @@ class TournamentController extends Controller
             abort(403);
         }
         $tournament->delete();
-        return redirect()->route('tournaments.index');
+        return response()->json(['redirect_url' => route('tournaments.index')]);
     }
 } 

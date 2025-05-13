@@ -44,6 +44,9 @@
                                 <p><i class="fas fa-desktop"></i> Platforma: {{ $tournament->platform }}</p>
                                 <p><i class="fas fa-users"></i> Spēlētāji: {{ $tournament->current_players }}/{{ $tournament->max_players }}</p>
                                 <p><i class="fas fa-clock"></i> Sākums: {{ $tournament->start_time->format('d.m.Y H:i') }}</p>
+                                @if(auth()->id() === $tournament->user_id)
+                                    <p class="tournament-creator"><i class="fas fa-crown"></i> Jūs esat turnīra organizātors</p>
+                                @endif
                             </div>
                             <div class="tournament-actions">
                                 <a href="{{ route('tournaments.show', $tournament) }}" class="tournament-view-details-btn">
@@ -65,13 +68,7 @@
                                     </form>
                                 @endif
                                 @if(auth()->id() === $tournament->user_id)
-                                    <form action="{{ route('tournaments.destroy', $tournament) }}" method="POST" style="margin-top: 0.5rem;" onsubmit="return confirm('Vai tiešām dzēst šo turnīru?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-block">
-                                            <i class="fas fa-trash"></i> Dzēst turnīru
-                                        </button>
-                                    </form>
+                                   
                                 @endif
                             </div>
                         </div>
