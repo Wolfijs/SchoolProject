@@ -37,9 +37,34 @@ class TournamentController extends Controller
             'platform' => 'required|string|max:50',
             'external_link' => 'nullable|url|max:255',
             'max_players' => 'required|integer|min:2',
-            'start_time' => 'required|date|after:now',
-            'end_time' => 'required|date|after:start_time',
+            'start_time' => 'required',
+            'end_time' => 'required',
+        ], [
+            'start_time.required' => 'Sākuma laiks ir obligāts.',
+            'end_time.required' => 'Beigu laiks ir obligāts.',
         ]);
+
+        try {
+            // Try to parse the dates using Carbon
+            $startTime = \Carbon\Carbon::parse($validated['start_time']);
+            $endTime = \Carbon\Carbon::parse($validated['end_time']);
+
+            // Validate that start time is after now
+            if ($startTime->lte(now())) {
+                return back()->withErrors(['start_time' => 'Sākuma laikam jābūt vēlākam par pašreizējo laiku.'])->withInput();
+            }
+
+            // Validate that end time is after start time
+            if ($endTime->lte($startTime)) {
+                return back()->withErrors(['end_time' => 'Beigu laikam jābūt vēlākam par sākuma laiku.'])->withInput();
+            }
+
+            $validated['start_time'] = $startTime;
+            $validated['end_time'] = $endTime;
+
+        } catch (\Exception $e) {
+            return back()->withErrors(['start_time' => 'Nederīgs datuma formāts. Lūdzu izmantojiet formātu DD/MM/YYYY HH:mm.'])->withInput();
+        }
 
         $tournament = Tournament::create([
             'user_id' => Auth::id(),
@@ -86,6 +111,6 @@ class TournamentController extends Controller
             abort(403);
         }
         $tournament->delete();
-        return response()->json(['redirect_url' => route('tournaments.index')]);
+        return redirect()->route('tournaments.index')->with('success', 'Turnīrs veiksmīgi izdzēsts.');
     }
 } 

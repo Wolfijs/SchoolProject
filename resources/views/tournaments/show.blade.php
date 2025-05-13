@@ -124,4 +124,42 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/tournaments.css') }}">
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteForm = document.getElementById('deleteTournamentForm');
+    if (deleteForm) {
+        deleteForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (confirm('Vai tiešām dzēst šo turnīru?')) {
+                fetch(this.action, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    window.location.href = '{{ route('tournaments.index') }}';
+                });
+            }
+        });
+    }
+});
+</script>
 @endpush 
