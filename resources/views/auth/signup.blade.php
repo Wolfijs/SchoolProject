@@ -73,7 +73,7 @@
             var passwordHint = document.getElementById('passwordHint');
             var passwordMatchHint = document.getElementById('passwordMatchHint');
             var emailHint = document.getElementById('emailHint');
-            var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+            var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9\s])[A-Za-z\d\S]{8,}$/;
             var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
             // Reset error messages
